@@ -24,8 +24,8 @@ def is_it_number?(number)
   end
 end
 
-todo_list = load_path + "/"+"todo_list.txt"
-done_list = load_path + "/"+"done_list.txt"
+todo_list = load_path + "/../todo_list.txt"
+done_list = load_path + "/../done_list.txt"
 
 command = ARGV[0]
 
