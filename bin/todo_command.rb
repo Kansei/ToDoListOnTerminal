@@ -73,6 +73,7 @@ def check_lists(lists_path, set_list_name)
   end
 end
 
+#扱うリストをセットする
 def set(list_name,lists_path,set_path)
   if File.exist?(lists_path + list_name)
     puts "changed set-file: #{list_name}"

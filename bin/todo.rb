@@ -43,7 +43,10 @@ when "lists"
   check_lists(lists_path,set_list_name)
 
 when "done"
-  #todoを含む文字のリスト名がセットされていた場合のみ。
+  set_list_name = set_list_path.split("/")[-1]
+
+  exit unless set_list_name.include?("todo")
+
   done_list_path = list_path + "/done_list.txt"
 
   option_nil?(ARGV[1])
