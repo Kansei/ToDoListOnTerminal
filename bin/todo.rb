@@ -1,70 +1,64 @@
 load_path=File.expand_path("../",__FILE__)
 require "#{load_path}/todo_command"
+require "#{load_path}/error"
 
-def check_argv
-  file = $0.split("/")[-1]
-  com = file.split(".")[0]
-  if ARGV.size < 2
-    STDERR.print "Usage: #{com} add/delete/check/done\n"
-    exit
-  end
+lists_path = load_path + "/../lists/"
+set_path = load_path+"/set.txt"
+set_list_path = ""
+
+File.open(set_path,"r") do |f|
+  set_list_path = lists_path + f.read.chomp
 end
-
-def option_nil?(opt)
-  if opt.nil?
-    STDERR.print "Option is not enough.\n"
-    exit
-  end
-end
-
-def is_it_number?(number)
-  if !(number =~ /^[1-9]+$/)
-    STDERR.print "Please enter a number.\n"
-    exit
-  end
-end
-
-todo_list = load_path + "/../todo_list.txt"
-done_list = load_path + "/../done_list.txt"
 
 command = ARGV[0]
-
 case command
 when "add"
   option_nil?(ARGV[1])
   new_task = ARGV[1]
-
-  add(new_task,todo_list)
+  add(new_task,set_list_path)
 
   puts "added: #{new_task}"
 
-  check("check",todo_list)
+  check(set_list_path)
 when "delete"
+  option_nil?(ARGV[1])
+  is_it_number?(ARGV[1])
+  task_num = ARGV[1].to_i
+  delete_task= delete(task_num,set_list_path)
+
+  puts "deleted: #{delete_task}"
+
+  check(set_list_path)
+
+when "check"
+  if ARGV[1].nil?
+    check(set_list_path)
+  else
+    list_name = ARGV[1]+".txt"
+    check(lists_path+list_name)
+  end
+
+when "lists"
+  set_list_name = set_list_path.split("/")[-1]
+  check_lists(lists_path,set_list_name)
+
+when "done"
+  #todoを含む文字のリスト名がセットされていた場合のみ。
+  done_list_path = list_path + "/done_list.txt"
+
   option_nil?(ARGV[1])
   is_it_number?(ARGV[1])
 
   task_num = ARGV[1].to_i
+  done_task = done(task_num, lists_path, done_list_path)
 
-  delete_task= delete(task_num,todo_list)
+  puts "done: #{done_task}"
 
-  puts "deleted: #{delete_task}"
+  check(done_list_path)
 
-  check("check",todo_list)
-when "check"
-  check(command,todo_list)
-when "done"
+when "set"
   option_nil?(ARGV[1])
-  opt = ARGV[1]
+  set_list_name = ARGV[1]+".txt"
 
-  if opt == "list"
-    check(command, done_list)
-  else
-    is_it_number?(opt)
-    task_num = ARGV[1].to_i
-    done_task = done(task_num, todo_list, done_list)
-
-    puts "done: #{done_task}"
-
-    check(command, done_list)
-  end
+  set(set_list_name,lists_path, set_path)
 end

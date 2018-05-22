@@ -40,22 +40,16 @@ def done(task_num,todo_list,done_list)
   return done_task
 end
 
-# リストの確認
-def check(comm,list)
+# 指定したリストの中身の確認
+def check(list_path)
+  list_name = list_path.split("/")[-1].split(".")[0].gsub(/_/," ").upcase
 
-  case comm
-  when "check"
-    list_name = "  TO DO LIST  "
-  when "done"
-    list_name = "  DONE LIST   "
-  end
-
-  print "<><><><><><><>"
-  print list_name
-  puts "<><><><><><><>"
+  header = "<><><><><><><> #{list_name} <><><><><><><>"
+  footer = "<>"*(header.length/2).to_i
+  puts header
 
   i = 1
-  File.open(list, "r") do |f|
+  File.open(list_path, "r") do |f|
     tasks = f.readlines
     tasks.each do |task|
       print("   #{i}  #{task}")
@@ -63,5 +57,31 @@ def check(comm,list)
     end
   end
 
-  puts "<><><><><><><><><><><><><><><><><><><><><>"
+  puts footer
+end
+
+# 作成したリストの確認
+def check_lists(lists_path, set_list_name)
+  Dir.open(lists_path) do |dir|
+    dir.each do |f|
+      set = "  "
+      next if '.' == f or '..' == f
+      set = "* " if set_list_name == f
+      list_name =  f.split(".")[0]
+      puts set+list_name
+    end
+  end
+end
+
+def set(list_name,lists_path,set_path)
+  if File.exist?(lists_path + list_name)
+    puts "changed set-file: #{list_name}"
+  else
+    File.open(lists_path + list_name,"w")
+    puts "created and changed set-file: #{list_name}"
+  end
+
+  File.open(set_path,"w") do |f|
+    f.print list_name
+  end
 end
