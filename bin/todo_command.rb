@@ -3,11 +3,13 @@
 #set.txtの作成
 def init(lists_path, set_path)
   Dir.mkdir(lists_path)
-  File.open(list_path+"todo_list.txt","w")
-  File.open(list_path+"today_todo_list.txt","w")
-  File.open(list_path+"done_list.txt","w")
+  File.open(lists_path+"todo_list.txt","w")
+  File.open(lists_path+"today_todo_list.txt","w")
+  File.open(lists_path+"done_list.txt","w")
 
-  File.open(set_path,"w")
+  File.open(set_path,"w") do |f|
+    f.puts "todo_list.txt"
+  end
 end
 # タスクの追加
 def add(new_task,list)

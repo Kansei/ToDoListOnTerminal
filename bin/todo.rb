@@ -6,21 +6,16 @@ lists_path = load_path + "/../lists/"
 set_path = load_path+"/set.txt"
 set_list_path = ""
 
-File.open(set_path,"r") do |f|
-  set_list_path = lists_path + f.read.chomp
+if File.exist?(set_path)
+  File.open(set_path,"r") do |f|
+    set_list_path = lists_path + f.read.chomp
+  end
+else
+  init(lists_path, set_path)
 end
-
-if !File.exist?(set_list_path)
-  STDERR.puts "Does not exist set.txt."
-  STDERR.puts "Please run `todo init`"
-  exit
-end
-
 
 command = ARGV[0]
 case command
-when "init"
-
 when "add"
   option_nil?(ARGV[1])
   new_task = ARGV[1]
