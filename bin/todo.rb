@@ -10,8 +10,17 @@ File.open(set_path,"r") do |f|
   set_list_path = lists_path + f.read.chomp
 end
 
+if !File.exist?(set_list_path)
+  STDERR.puts "Does not exist set.txt."
+  STDERR.puts "Please run `todo init`"
+  exit
+end
+
+
 command = ARGV[0]
 case command
+when "init"
+
 when "add"
   option_nil?(ARGV[1])
   new_task = ARGV[1]

@@ -1,3 +1,14 @@
+#初期化
+#listsディレクトリとtodo_list, today_todo_list, done_listの作成
+#set.txtの作成
+def init(lists_path, set_path)
+  Dir.mkdir(lists_path)
+  File.open(list_path+"todo_list.txt","w")
+  File.open(list_path+"today_todo_list.txt","w")
+  File.open(list_path+"done_list.txt","w")
+
+  File.open(set_path,"w")
+end
 # タスクの追加
 def add(new_task,list)
   File.open(list, "a") do |f|
