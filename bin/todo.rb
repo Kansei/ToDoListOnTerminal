@@ -47,13 +47,13 @@ when "done"
 
   exit unless set_list_name.include?("todo")
 
-  done_list_path = list_path + "/done_list.txt"
+  done_list_path = lists_path + "/done_list.txt"
 
   option_nil?(ARGV[1])
   is_it_number?(ARGV[1])
-
   task_num = ARGV[1].to_i
-  done_task = done(task_num, lists_path, done_list_path)
+
+  done_task = done(task_num, set_list_path, done_list_path)
 
   puts "done: #{done_task}"
 
