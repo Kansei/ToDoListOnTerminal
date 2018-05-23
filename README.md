@@ -7,8 +7,7 @@ ToDoの追加、削除、確認、Doneができ、これにより他のソフト
 todoで実行できるようにエイリアスの登録を行う。   
 .bashrcに以下のコードを追加。
 ```
-alias todo='ruby ToDoListOnTerminalのパス\
-  /bin/todo.rb'
+alias todo='ruby [ToDoListOnTerminalのパス]/bin/todo.rb'
 ```
 ### ターミナル起動時に自動でToDoListの表示
 .bashrcに以下のコードを追加。
