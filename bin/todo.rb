@@ -1,3 +1,5 @@
+#todo: 例外処理、リストの削除
+
 load_path=File.expand_path("../",__FILE__)
 require "#{load_path}/todo_command"
 require "#{load_path}/error"
@@ -15,6 +17,9 @@ else
 end
 
 command = ARGV[0]
+
+
+
 case command
 when "add"
   option_nil?(ARGV[1])
@@ -47,11 +52,7 @@ when "lists"
   check_lists(lists_path,set_list_name)
 
 when "done"
-  set_list_name = set_list_path.split("/")[-1]
-
-  exit unless set_list_name.include?("todo")
-
-  done_list_path = lists_path + "/done_list.txt"
+  done_list_path = lists_path + "/done.txt"
 
   option_nil?(ARGV[1])
   is_it_number?(ARGV[1])
@@ -61,7 +62,7 @@ when "done"
 
   puts "done: #{done_task}"
 
-  check(done_list_path)
+  check(set_list_path)
 
 when "set"
   option_nil?(ARGV[1])

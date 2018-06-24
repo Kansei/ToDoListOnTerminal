@@ -3,12 +3,14 @@
 #set.txtの作成
 def init(lists_path, set_path)
   Dir.mkdir(lists_path)
-  File.open(lists_path+"todo_list.txt","w")
-  File.open(lists_path+"today_todo_list.txt","w")
-  File.open(lists_path+"done_list.txt","w")
+  File.open(lists_path+"year.txt","w")
+  File.open(lists_path+"month.txt","w")
+  File.open(lists_path+"today.txt","w")
+  File.open(lists_path+"week.txt","w")
+  File.open(lists_path+"done.txt","w")
 
   File.open(set_path,"w") do |f|
-    f.puts "todo_list.txt"
+    f.puts "today.txt"
   end
 end
 # タスクの追加
@@ -88,14 +90,16 @@ end
 
 #扱うリストをセットする
 def set(list_name,lists_path,set_path)
-  if File.exist?(lists_path + list_name)
-    puts "changed set-file: #{list_name}"
-  else
-    File.open(lists_path + list_name,"w")
-    puts "created and changed set-file: #{list_name}"
-  end
-
   File.open(set_path,"w") do |f|
     f.print list_name
+  end
+
+  list = list_name.split(".")[0]
+  if File.exist?(lists_path + list_name)
+    puts "changed set-list: #{list}"
+    check(lists_path + list_name)
+  else
+    File.open(lists_path + list_name,"w")
+    puts "created and changed set-list: #{list}"
   end
 end
